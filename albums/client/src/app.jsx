@@ -1,39 +1,52 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import RecordList from './components/RecordList.jsx'
-import Search from './components/Search.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import RecordList from './components/RecordList.jsx';
+import Search from './components/Search.jsx';
+import AddRecord from './components/AddRecord.jsx';
 
 class App extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             component: 'list',
-            showRecords: false,
             owned: true
+        };
+
+        this.changeList = this.changeList.bind(this);
+    }
+
+    changeList({ target }) {
+      let component = target.name;
+      let bool = true;
+
+      if (component === 'own' || component === 'want') {
+        if (component === 'want') {
+          bool = false;
         }
+        component = 'list'
+      }
 
-        this.showYours = this.showYours.bind(this)
-        this.showWishList = this.showWishList.bind(this)
-        this.search = this.search.bind(this)
+      this.setState({
+        component: component,
+        owned: bool
+      });
     }
 
-    showYours () {
-        this.setState({owned: true, component: 'list'})
+    getRecords(filterParam) {
+      axios.get('http://127.0.0.1:8000/albums/api/records')
+        .then(response => {
+          let records = response.data.filter(record => {
+            return record.owned === filterParam
+          })
+          this.setState({records: records});
+        })
     }
 
-    showWishList () {
-        this.setState({owned: false, component: 'list'})
-    }
-
-    search () {
-        this.setState({component: 'search'})
-    }
-
-    render () {
+    render() {
         let style = {
           marginRight: '10px'
-        }
+        };
 
         let component = <RecordList owned={this.state.owned} />
 
@@ -41,12 +54,17 @@ class App extends React.Component {
           component = <Search />
         }
 
+        if (this.state.component === 'add') {
+          component = <AddRecord />
+        }
+
         return (
           <div>
             <p>
-              <a style={style} onClick={this.showYours}>your records</a>
-              <a style={style} onClick={this.showWishList}>wish list</a>
-              <a style={style} onClick={this.search}> search</a>
+              <a style={style} name="own"  onClick={this.changeList}>your records</a>
+              <a style={style} name="want"onClick={this.changeList}>wish list</a>
+              <a style={style} name="search" onClick={this.changeList}>search</a>
+              <a style={style} name="add" onClick={this.changeList}>manually add a record</a>
             </p>
             { component }
           </div>

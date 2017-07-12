@@ -10456,6 +10456,10 @@ var _Search = __webpack_require__(212);
 
 var _Search2 = _interopRequireDefault(_Search);
 
+var _AddRecord = __webpack_require__(213);
+
+var _AddRecord2 = _interopRequireDefault(_AddRecord);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10465,81 +10469,104 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var App = function (_React$Component) {
-    _inherits(App, _React$Component);
+  _inherits(App, _React$Component);
 
-    function App(props) {
-        _classCallCheck(this, App);
+  function App(props) {
+    _classCallCheck(this, App);
 
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-        _this.state = {
-            component: 'list',
-            showRecords: false,
-            owned: true
-        };
+    _this.state = {
+      component: 'list',
+      owned: true
+    };
 
-        _this.showYours = _this.showYours.bind(_this);
-        _this.showWishList = _this.showWishList.bind(_this);
-        _this.search = _this.search.bind(_this);
-        return _this;
+    _this.changeList = _this.changeList.bind(_this);
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: 'changeList',
+    value: function changeList(_ref) {
+      var target = _ref.target;
+
+      var component = target.name;
+      var bool = true;
+
+      if (component === 'own' || component === 'want') {
+        if (component === 'want') {
+          bool = false;
+        }
+        component = 'list';
+      }
+
+      this.setState({
+        component: component,
+        owned: bool
+      });
     }
+  }, {
+    key: 'getRecords',
+    value: function getRecords(filterParam) {
+      var _this2 = this;
 
-    _createClass(App, [{
-        key: 'showYours',
-        value: function showYours() {
-            this.setState({ owned: true, component: 'list' });
-        }
-    }, {
-        key: 'showWishList',
-        value: function showWishList() {
-            this.setState({ owned: false, component: 'list' });
-        }
-    }, {
-        key: 'search',
-        value: function search() {
-            this.setState({ component: 'search' });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var style = {
-                marginRight: '10px'
-            };
+      axios.get('http://127.0.0.1:8000/albums/api/records').then(function (response) {
+        var records = response.data.filter(function (record) {
+          return record.owned === filterParam;
+        });
+        _this2.setState({ records: records });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var style = {
+        marginRight: '10px'
+      };
 
-            var component = _react2.default.createElement(_RecordList2.default, { owned: this.state.owned });
+      var component = _react2.default.createElement(_RecordList2.default, { owned: this.state.owned });
 
-            if (this.state.component === 'search') {
-                component = _react2.default.createElement(_Search2.default, null);
-            }
+      if (this.state.component === 'search') {
+        component = _react2.default.createElement(_Search2.default, null);
+      }
 
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                        'a',
-                        { style: style, onClick: this.showYours },
-                        'your records'
-                    ),
-                    _react2.default.createElement(
-                        'a',
-                        { style: style, onClick: this.showWishList },
-                        'wish list'
-                    ),
-                    _react2.default.createElement(
-                        'a',
-                        { style: style, onClick: this.search },
-                        ' search'
-                    )
-                ),
-                component
-            );
-        }
-    }]);
+      if (this.state.component === 'add') {
+        component = _react2.default.createElement(_AddRecord2.default, null);
+      }
 
-    return App;
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'p',
+          null,
+          _react2.default.createElement(
+            'a',
+            { style: style, name: 'own', onClick: this.changeList },
+            'your records'
+          ),
+          _react2.default.createElement(
+            'a',
+            { style: style, name: 'want', onClick: this.changeList },
+            'wish list'
+          ),
+          _react2.default.createElement(
+            'a',
+            { style: style, name: 'search', onClick: this.changeList },
+            'search'
+          ),
+          _react2.default.createElement(
+            'a',
+            { style: style, name: 'add', onClick: this.changeList },
+            'manually add a record'
+          )
+        ),
+        component
+      );
+    }
+  }]);
+
+  return App;
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
@@ -24194,6 +24221,127 @@ var Search = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Search;
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(51);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(192);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddRecord = function (_React$Component) {
+  _inherits(AddRecord, _React$Component);
+
+  function AddRecord(props) {
+    _classCallCheck(this, AddRecord);
+
+    var _this = _possibleConstructorReturn(this, (AddRecord.__proto__ || Object.getPrototypeOf(AddRecord)).call(this, props));
+
+    _this.state = {
+      artist: '',
+      title: '',
+      year: '',
+      owned: false
+    };
+
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AddRecord, [{
+    key: 'handleChange',
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+
+      var value = target.value;
+
+      if (value === 'true') {
+        value = !this.state.owned;
+      }
+
+      this.setState(_defineProperty({}, target.name, value));
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      event.preventDefault();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement(
+            'label',
+            null,
+            'Artist: '
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'text', name: 'artist', onChange: this.handleChange }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Title: '
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'text', name: 'title', onChange: this.handleChange }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Year Released: '
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'text', name: 'year', onChange: this.handleChange }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Have it: '
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'checkbox', value: 'true', name: 'owned', onChange: this.handleChange }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('input', { type: 'submit' })
+        )
+      );
+    }
+  }]);
+
+  return AddRecord;
+}(_react2.default.Component);
+
+exports.default = AddRecord;
 
 /***/ })
 /******/ ]);
