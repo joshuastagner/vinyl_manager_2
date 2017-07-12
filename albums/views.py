@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from rest_framework.response import Response
 from . import models
 from albums.serializers import AlbumSerializer, ArtistSerializer, RecordSerializer
+from rest_framework.decorators import api_view
 
 
 def index(request):
@@ -26,3 +28,8 @@ def records(request):
         print(serializer.data)
 
         return JsonResponse(serializer.data, safe=False)
+
+@api_view(['POST'])
+def save_record(request):
+    print(request.data)
+    return Response(status=201)

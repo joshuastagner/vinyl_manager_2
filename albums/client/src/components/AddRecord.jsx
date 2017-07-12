@@ -27,7 +27,36 @@ class AddRecord extends React.Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
+    let cookies = document.cookie.split('; ')
+
+    let token = cookies.filter(cookie => {
+      return cookie.slice(0, 4) === 'csrf'
+    })
+
+    token = token[0].slice(10)
+
+    axios({
+      method: 'POST',
+      url: 'http://127.0.0.1:8000/albums/api/save-record',
+      headers: {'X-CSRFToken': token},
+      data: {
+        artist: this.state.artist,
+        title: this.state.title,
+        year: this.state.year,
+        owned: this.state.owned
+      }
+    })
+      .then(() => {
+        this.setState({
+          artist: '',
+          title: '',
+          year: '',
+          owned: false
+        })
+      })
+      .catch(() => alert('fuck'))
+
+    event.preventDefault()
   }
 
   render() {
@@ -35,13 +64,13 @@ class AddRecord extends React.Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>Artist: </label><br />
-          <input type="text" name="artist" onChange={this.handleChange}/><br/>
+          <input type="text" name="artist" onChange={this.handleChange} value={this.state.artist}/><br/>
           <label>Title: </label><br />
-          <input type="text" name="title" onChange={this.handleChange}/><br/>
+          <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/><br/>
           <label>Year Released: </label><br/>
-          <input type="text"name="year" onChange={this.handleChange}/><br/>
+          <input type="text"name="year" onChange={this.handleChange} value={this.state.year}/><br/>
           <label>Have it: </label><br/>
-          <input type="checkbox" value="true" name="owned" onChange={this.handleChange} /><br/>
+          <input type="checkbox" value="true" name="owned" onChange={this.handleChange} checked={this.state.owned}/><br/>
           <input type="submit"/>
         </form>
       </div>

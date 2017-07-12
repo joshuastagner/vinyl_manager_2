@@ -24289,6 +24289,37 @@ var AddRecord = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
+      var _this2 = this;
+
+      var cookies = document.cookie.split('; ');
+
+      var token = cookies.filter(function (cookie) {
+        return cookie.slice(0, 4) === 'csrf';
+      });
+
+      token = token[0].slice(10);
+
+      (0, _axios2.default)({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/albums/api/save-record',
+        headers: { 'X-CSRFToken': token },
+        data: {
+          artist: this.state.artist,
+          title: this.state.title,
+          year: this.state.year,
+          owned: this.state.owned
+        }
+      }).then(function () {
+        _this2.setState({
+          artist: '',
+          title: '',
+          year: '',
+          owned: false
+        });
+      }).catch(function () {
+        return alert('fuck');
+      });
+
       event.preventDefault();
     }
   }, {
@@ -24306,7 +24337,7 @@ var AddRecord = function (_React$Component) {
             'Artist: '
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { type: 'text', name: 'artist', onChange: this.handleChange }),
+          _react2.default.createElement('input', { type: 'text', name: 'artist', onChange: this.handleChange, value: this.state.artist }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'label',
@@ -24314,7 +24345,7 @@ var AddRecord = function (_React$Component) {
             'Title: '
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { type: 'text', name: 'title', onChange: this.handleChange }),
+          _react2.default.createElement('input', { type: 'text', name: 'title', onChange: this.handleChange, value: this.state.title }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'label',
@@ -24322,7 +24353,7 @@ var AddRecord = function (_React$Component) {
             'Year Released: '
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { type: 'text', name: 'year', onChange: this.handleChange }),
+          _react2.default.createElement('input', { type: 'text', name: 'year', onChange: this.handleChange, value: this.state.year }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'label',
@@ -24330,7 +24361,7 @@ var AddRecord = function (_React$Component) {
             'Have it: '
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { type: 'checkbox', value: 'true', name: 'owned', onChange: this.handleChange }),
+          _react2.default.createElement('input', { type: 'checkbox', value: 'true', name: 'owned', onChange: this.handleChange, checked: this.state.owned }),
           _react2.default.createElement('br', null),
           _react2.default.createElement('input', { type: 'submit' })
         )
