@@ -11,7 +11,11 @@ class RecordList extends React.Component {
     }
 
     componentDidMount() {
-      this.getRecords(this.props.owned);
+      if (this.props.records) {
+        this.setState({records: this.props.records});
+      } else {
+        this.getRecords(this.props.owned);
+      }
     }
 
     componentWillReceiveProps(next) {
