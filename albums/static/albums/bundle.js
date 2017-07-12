@@ -10452,6 +10452,10 @@ var _RecordList = __webpack_require__(211);
 
 var _RecordList2 = _interopRequireDefault(_RecordList);
 
+var _Search = __webpack_require__(212);
+
+var _Search2 = _interopRequireDefault(_Search);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10469,23 +10473,43 @@ var App = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            showRecords: false
+            component: 'list',
+            showRecords: false,
+            owned: true
         };
 
-        _this.showRecords = _this.showRecords.bind(_this);
+        _this.showYours = _this.showYours.bind(_this);
+        _this.showWishList = _this.showWishList.bind(_this);
+        _this.search = _this.search.bind(_this);
         return _this;
     }
 
     _createClass(App, [{
-        key: 'showRecords',
-        value: function showRecords() {
-            this.setState({ showRecords: true });
+        key: 'showYours',
+        value: function showYours() {
+            this.setState({ owned: true, component: 'list' });
+        }
+    }, {
+        key: 'showWishList',
+        value: function showWishList() {
+            this.setState({ owned: false, component: 'list' });
+        }
+    }, {
+        key: 'search',
+        value: function search() {
+            this.setState({ component: 'search' });
         }
     }, {
         key: 'render',
         value: function render() {
-            if (this.state.showRecords) {
-                return _react2.default.createElement(_RecordList2.default, { owned: true });
+            var style = {
+                marginRight: '10px'
+            };
+
+            var component = _react2.default.createElement(_RecordList2.default, { owned: this.state.owned });
+
+            if (this.state.component === 'search') {
+                component = _react2.default.createElement(_Search2.default, null);
             }
 
             return _react2.default.createElement(
@@ -10493,9 +10517,24 @@ var App = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'p',
-                    { onClick: this.showRecords },
-                    'your records'
-                )
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { style: style, onClick: this.showYours },
+                        'your records'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { style: style, onClick: this.showWishList },
+                        'wish list'
+                    ),
+                    _react2.default.createElement(
+                        'a',
+                        { style: style, onClick: this.search },
+                        ' search'
+                    )
+                ),
+                component
             );
         }
     }]);
@@ -24052,11 +24091,23 @@ var RecordList = function (_React$Component) {
   _createClass(RecordList, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this.getRecords(this.props.owned);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(next) {
+      if (this.props.owned !== next.owned) {
+        this.getRecords(next.owned);
+      }
+    }
+  }, {
+    key: 'getRecords',
+    value: function getRecords(filterParam) {
       var _this2 = this;
 
       _axios2.default.get('http://127.0.0.1:8000/albums/api/records').then(function (response) {
         var records = response.data.filter(function (record) {
-          return record.owned === _this2.props.owned;
+          return record.owned === filterParam;
         });
         _this2.setState({ records: records });
       });
@@ -24067,6 +24118,12 @@ var RecordList = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'h2',
+          null,
+          'owned: ',
+          this.props.owned.toString()
+        ),
         this.state.records.map(function (record) {
           return _react2.default.createElement(
             'p',
@@ -24082,6 +24139,61 @@ var RecordList = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = RecordList;
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(51);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Search = function (_React$Component) {
+  _inherits(Search, _React$Component);
+
+  function Search(props) {
+    _classCallCheck(this, Search);
+
+    return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+  }
+
+  _createClass(Search, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "h2",
+          null,
+          "Discogs Search coming soon!"
+        ),
+        _react2.default.createElement("img", { src: "https://i.marketingprofs.com/assets/images/articles/lg/150619-sherlock-of-paid-search-lg.jpg" })
+      );
+    }
+  }]);
+
+  return Search;
+}(_react2.default.Component);
+
+exports.default = Search;
 
 /***/ })
 /******/ ]);

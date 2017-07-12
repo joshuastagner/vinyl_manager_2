@@ -1,31 +1,55 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import RecordList from './components/RecordList.jsx'
+import Search from './components/Search.jsx'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            component: 'list',
             showRecords: false,
+            owned: true
         }
 
-        this.showRecords = this.showRecords.bind(this)
+        this.showYours = this.showYours.bind(this)
+        this.showWishList = this.showWishList.bind(this)
+        this.search = this.search.bind(this)
     }
 
-    showRecords () {
-        this.setState({showRecords: true})
+    showYours () {
+        this.setState({owned: true, component: 'list'})
+    }
+
+    showWishList () {
+        this.setState({owned: false, component: 'list'})
+    }
+
+    search () {
+        this.setState({component: 'search'})
     }
 
     render () {
-        if (this.state.showRecords) {
-            return <RecordList owned={true}/>
+        let style = {
+          marginRight: '10px'
+        }
+
+        let component = <RecordList owned={this.state.owned} />
+
+        if (this.state.component === 'search') {
+          component = <Search />
         }
 
         return (
-            <div>
-                <p onClick={this.showRecords}>your records</p>
-            </div>
+          <div>
+            <p>
+              <a style={style} onClick={this.showYours}>your records</a>
+              <a style={style} onClick={this.showWishList}>wish list</a>
+              <a style={style} onClick={this.search}> search</a>
+            </p>
+            { component }
+          </div>
         );
     }
 }
