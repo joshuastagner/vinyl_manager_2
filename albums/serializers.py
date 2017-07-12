@@ -11,7 +11,8 @@ class AlbumSerializer(serializers.ModelSerializer):
         model = Album
         fields = ('title', 'artist', 'year')
 
-class RecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Record
-        fields = ('album', 'owned', 'user')
+class RecordSerializer(serializers.Serializer):
+    artist = serializers.CharField(max_length=30)
+    title = serializers.CharField(max_length=80)
+    year = serializers.IntegerField()
+    owned = serializers.BooleanField()
