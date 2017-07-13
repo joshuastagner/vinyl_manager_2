@@ -39,7 +39,6 @@ class Search extends React.Component {
       }
     })
       .then(response => {
-        console.log(response.data)
         this.setState({searchQuery: '', records: response.data, displayResults: true})
       })
       .catch((error) => console.log(error))
@@ -48,7 +47,7 @@ class Search extends React.Component {
   render() {
     let component = '';
     if (this.state.displayResults) {
-      component = <RecordList owned="nah" records={this.state.records} />
+      component = <RecordList owned="nah" records={this.state.records} saveRecord={this.props.saveRecord} />
     }
 
     return (

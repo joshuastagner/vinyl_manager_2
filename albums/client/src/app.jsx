@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import RecordList from './components/RecordList.jsx';
 import Search from './components/Search.jsx';
 import AddRecord from './components/AddRecord.jsx';
@@ -14,6 +15,7 @@ class App extends React.Component {
         };
 
         this.changeList = this.changeList.bind(this);
+        this.saveRecord = this.saveRecord.bind(this);
     }
 
     changeList({ target }) {
@@ -43,6 +45,31 @@ class App extends React.Component {
         })
     }
 
+    saveRecord(record, cb) {
+      let cookies = document.cookie.split('; ')
+
+      let token = cookies.filter(cookie => {
+        return cookie.slice(0, 4) === 'csrf'
+      })
+
+      token = token[0].slice(10)
+
+      axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/albums/api/save-record',
+        headers: {'X-CSRFToken': token},
+        data: {
+          artist: record.artist,
+          title: record.title,
+          year: record.year,
+          owned: record.owned,
+          thumb: record.thumb
+        }
+      })
+        .then((response) => cb(response))
+        .catch((error) => cb(error))
+      }
+
     render() {
         let style = {
           marginRight: '10px'
@@ -51,11 +78,11 @@ class App extends React.Component {
         let component = <RecordList owned={this.state.owned} />
 
         if (this.state.component === 'search') {
-          component = <Search />
+          component = <Search saveRecord={this.saveRecord} />
         }
 
         if (this.state.component === 'add') {
-          component = <AddRecord />
+          component = <AddRecord saveRecord={this.saveRecord} />
         }
 
         return (

@@ -11,6 +11,7 @@ class Album(models.Model):
     title = models.CharField(max_length=80)
     year = models.IntegerField()
     artist = models.ForeignKey(Artist)
+    thumb = models.CharField(default='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1200px-12in-Vinyl-LP-Record-Angle.jpg', max_length=300)
 
     def __str__(self):
         return self.title

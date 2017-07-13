@@ -16,3 +16,4 @@ class RecordSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=80)
     year = serializers.IntegerField()
     owned = serializers.BooleanField()
+    thumb = serializers.CharField()

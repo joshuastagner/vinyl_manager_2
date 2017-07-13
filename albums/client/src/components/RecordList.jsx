@@ -1,13 +1,14 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
+import RecordView from './RecordView.jsx';
 
 class RecordList extends React.Component {
     constructor(props) {
-      super(props)
+      super(props);
 
       this.state = {
         records: []
-      }
+      };
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class RecordList extends React.Component {
         return (
           <div>
             <h2>owned: {this.props.owned.toString()}</h2>
-            {this.state.records.map(record => <p>{record.title}</p>)}
+            {this.state.records.map(record => <RecordView record={record} saveRecord={this.props.saveRecord}/>)}
           </div>
         )
     }

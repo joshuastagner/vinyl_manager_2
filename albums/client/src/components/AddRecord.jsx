@@ -27,36 +27,18 @@ class AddRecord extends React.Component {
   }
 
   handleSubmit(event) {
-    let cookies = document.cookie.split('; ')
+    event.preventDefault();
 
-    let token = cookies.filter(cookie => {
-      return cookie.slice(0, 4) === 'csrf'
-    })
-
-    token = token[0].slice(10)
-
-    axios({
-      method: 'POST',
-      url: 'http://127.0.0.1:8000/albums/api/save-record',
-      headers: {'X-CSRFToken': token},
-      data: {
-        artist: this.state.artist,
-        title: this.state.title,
-        year: this.state.year,
-        owned: this.state.owned
-      }
-    })
-      .then(() => {
-        this.setState({
-          artist: '',
-          title: '',
-          year: '',
-          owned: false
-        })
+    let record = this.state;
+    record.thumb = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1200px-12in-Vinyl-LP-Record-Angle.jpg';
+    this.props.saveRecord(this.state, () => {
+      this.setState({
+        artist: '',
+        title: '',
+        year: '',
+        owned: false
       })
-      .catch(() => alert('fuck'))
-
-    event.preventDefault()
+    });
   }
 
   render() {
