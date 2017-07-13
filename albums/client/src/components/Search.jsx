@@ -54,7 +54,6 @@ class Search extends React.Component {
       <div>
         <h2>search discogs</h2>
         <form onSubmit={this.handleSubmit}>
-          <label>search that shit: </label>
           <input onChange={this.handleChange} value={this.state.searchQuery} />
           <input type="submit" value="search" />
         </form>

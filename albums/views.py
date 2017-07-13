@@ -20,6 +20,7 @@ def records(request):
 
         for record in user_records:
             record_data = {
+                'record_id': record.id,
                 'artist': record.album.artist,
                 'title': record.album.title,
                 'year': record.album.year,
@@ -60,6 +61,7 @@ def records(request):
                 thumb = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1200px-12in-Vinyl-LP-Record-Angle.jpg'
 
             return {
+                'record_id': obj['id'],
                 'artist': obj['title'].split('-')[0],
                 'title': album_title,
                 'year': year,
@@ -74,7 +76,6 @@ def records(request):
 @api_view(['POST'])
 def save_record(request):
     artist = models.Artist.objects.get_or_create(name=request.data['artist'])
-    owned = request.data['owned'] == 'true'
     year = 9999 if request.data['year'] == None else request.data['year']
 
     album = models.Album.objects.get_or_create(
@@ -86,7 +87,13 @@ def save_record(request):
     record = models.Record.objects.create(
         user_id=request.user.id,
         album=album[0],
-        owned=owned
+        owned=request.data['owned']
     )
     record.save()
     return Response(status=201)
+
+@api_view(['DELETE'])
+def delete_record(request):
+    record = models.Record.objects.get(pk=request.data['record_id'])
+    record.delete()
+    return HttpResponse('good job')

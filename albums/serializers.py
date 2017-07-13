@@ -12,6 +12,7 @@ class AlbumSerializer(serializers.ModelSerializer):
         fields = ('title', 'artist', 'year')
 
 class RecordSerializer(serializers.Serializer):
+    record_id = serializers.IntegerField()
     artist = serializers.CharField(max_length=30)
     title = serializers.CharField(max_length=80)
     year = serializers.IntegerField()
