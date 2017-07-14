@@ -43,17 +43,19 @@ class AddRecord extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="search">
         <form onSubmit={this.handleSubmit}>
-          <label>Artist: </label><br />
-          <input type="text" name="artist" onChange={this.handleChange} value={this.state.artist}/><br/>
-          <label>Title: </label><br />
-          <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/><br/>
-          <label>Year Released: </label><br/>
-          <input type="text"name="year" onChange={this.handleChange} value={this.state.year}/><br/>
-          <label>Have it: </label><br/>
-          <input type="checkbox" value="true" name="owned" onChange={this.handleChange} checked={this.state.owned}/><br/>
-          <input type="submit"/>
+          <div className="wrapper">
+            <label>Artist: </label><br />
+            <input type="text" name="artist" onChange={this.handleChange} value={this.state.artist}/><br/>
+            <label>Title: </label><br />
+            <input type="text" name="title" onChange={this.handleChange} value={this.state.title}/><br/>
+            <label>Year Released: </label><br/>
+            <input type="text"name="year" onChange={this.handleChange} value={this.state.year}/><br/>
+            <label>Have it: </label>
+            <input className="check" type="checkbox" value="true" name="owned" onChange={this.handleChange} checked={this.state.owned}/><br/>
+            <input className="submit" type="submit"/>
+          </div>
         </form>
       </div>
     )

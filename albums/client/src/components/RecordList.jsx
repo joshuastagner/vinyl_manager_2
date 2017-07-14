@@ -29,13 +29,22 @@ class RecordList extends React.Component {
           this.getRecords(this.state.owned);
         })
       }
+
+      if (this.props.records) {
+        this.setState({records: this.props.records})
+      }
     }
 
     getRecords() {
+      let bool = false;
+      if (this.props.owned === 'Your Records') {
+        bool = true;
+      }
+
       axios.get('http://127.0.0.1:8000/albums/api/records')
         .then(response => {
           let records = response.data.filter(record => {
-            return record.owned === this.state.owned
+            return record.owned === bool;
           })
           this.setState({records: records});
         })
@@ -44,7 +53,7 @@ class RecordList extends React.Component {
     render() {
         return (
           <div>
-            <h2>owned: {this.props.owned.toString()}</h2>
+            <h2>{this.props.owned.toString()}</h2>
             {this.state.records.map(record => {
               return <RecordView key={record.record_id} record={record} saveRecord={this.props.saveRecord} getRecords={this.getRecords}/>
             })}

@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from . import forms
 from albums.views import index
@@ -30,9 +31,11 @@ def loginView(request):
             password = form.cleaned_data['password']
 
             if username == '':
-                user = authenticate(email=email, password=password)
+                user_model = User.objects.get(email=email)
+                user = authenticate(username=user_model.username, password=password)
             else:
                 user = authenticate(username=username, password=password)
+
 
             login(request, user)
 
