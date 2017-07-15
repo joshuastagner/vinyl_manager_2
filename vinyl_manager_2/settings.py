@@ -132,7 +132,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, 'readit', 'static'),
+	os.path.join(BASE_DIR, 'vinyl_manager_2', 'static'),
 )
 
 # Django REST framework settings
