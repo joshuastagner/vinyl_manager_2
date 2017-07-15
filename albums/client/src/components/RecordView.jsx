@@ -65,7 +65,6 @@ class RecordView extends React.Component {
 
     return (
       <div>
-        {added}
         <div className="record">
           <img src={this.props.record.thumb} style={{height: '100px', width: '100px'}}/>
           <table>
@@ -75,7 +74,7 @@ class RecordView extends React.Component {
               </tr>
               <tr><td>{this.props.record.artist}</td></tr>
               <tr><td>{this.props.record.year || 'unknown'}</td></tr>
-              <tr><td>{Button1}{Button2}</td></tr>
+              <tr><td>{Button1}{Button2}{added}</td></tr>
             </tbody>
           </table>
         </div>

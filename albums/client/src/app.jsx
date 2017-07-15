@@ -120,6 +120,7 @@ class App extends React.Component {
               <a name="want"onClick={this.changeList}>wish list</a>
               <a name="search" onClick={this.changeList}>search</a>
               <a name="add" onClick={this.changeList}>manually add a record</a>
+              <a href='/login'>login</a>
             </p>
             { component }
           </div>

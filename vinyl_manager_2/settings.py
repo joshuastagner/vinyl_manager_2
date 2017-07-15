@@ -11,21 +11,25 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from settings_secret import Secrets
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DJANGO_MODE = os.getenv('DJANGO_MODE', "Production").lower()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = Secrets['SECRET_KEY']
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if DJANGO_MODE == 'local':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -72,15 +76,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'vinyl_manager_2.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': Secrets['DATABASE']['NAME'],
+if DJANGO_MODE == 'local':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DATABASE_NAME'),
+        }
     }
-}
+elif DJANGO_MODE == 'production':
+	DATABASES = {'default': dj_database_url.config()}
+
+	# Handles DATABASE_URL environment variable
 
 
 # Password validation
@@ -120,6 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
 
 # Django REST framework settings
 
@@ -130,4 +140,9 @@ REST_FRAMEWORK = {
     )
 }
 
-SECRETS = Secrets
+SECRETS = {
+    'DISCOGS': {
+        'KEY': os.getenv('DISCOGS_KEY'),
+        'SECRET': os.getenv('DISCOGS_SECRET')
+    }
+}

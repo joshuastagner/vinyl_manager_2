@@ -35,7 +35,9 @@ label {
 }
 
 input.check {
-    width: 50px;
+    float: left;
+    margin-top: 5px;
+    width: 60px;
 }
 
 input.submit {
