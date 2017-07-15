@@ -4,6 +4,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+    url(r'^$', views.redirect_home),
     url(r'^admin/', admin.site.urls),
     url(r'^albums/', include('albums.urls')),
     url(r'^login/', views.loginView),

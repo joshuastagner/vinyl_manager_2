@@ -49,5 +49,8 @@ def loginView(request):
 
 def logoutView(request):
     logout(request)
-    return HttpResponse('Logged out!')
+    return redirect(index)
+
+def redirect_home(request):
+    return redirect(index)
 
