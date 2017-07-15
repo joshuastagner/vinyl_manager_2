@@ -121,6 +121,7 @@ class App extends React.Component {
               <a name="search" onClick={this.changeList}>search</a>
               <a name="add" onClick={this.changeList}>manually add a record</a>
               <a href='/login'>login</a>
+              <a href='/logout'>logout</a>
             </p>
             { component }
           </div>
