@@ -21,7 +21,7 @@ class App extends React.Component {
     }
 
     searchRecords(query, cb) {
-      console.log('yo')
+
       let cookies = document.cookie.split('; ')
 
       let token = cookies.filter(cookie => {
@@ -98,9 +98,12 @@ class App extends React.Component {
       }
 
     render() {
-
         let component = <RecordList owned={this.state.owned} />
+        let login = <a href='/logout'>logout</a>
 
+        if (this.props.user === 'AnonymousUser') {
+          login = <a href='/login'>login</a>
+        }
         if (this.state.component === 'search') {
           component = <Search
               saveRecord={this.saveRecord}
@@ -120,8 +123,7 @@ class App extends React.Component {
               <a name="want"onClick={this.changeList}>wish list</a>
               <a name="search" onClick={this.changeList}>search</a>
               <a name="add" onClick={this.changeList}>manually add a record</a>
-              <a href='/login'>login</a>
-              <a href='/logout'>logout</a>
+              {login}
             </p>
             { component }
           </div>
@@ -129,4 +131,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render( <App />, document.getElementById('app'));
+ReactDOM.render( <App user={window.user}/>, document.getElementById('app'));

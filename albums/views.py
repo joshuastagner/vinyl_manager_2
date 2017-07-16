@@ -10,7 +10,8 @@ from vinyl_manager_2.settings import SECRETS
 
 
 def index(request):
-    return render(request, 'albums/index.html', {'user': request.user})
+    context = {'user': str(request.user)}
+    return render(request, 'albums/index.html', context=context)
 
 @api_view(['GET', 'POST'])
 def records(request):
