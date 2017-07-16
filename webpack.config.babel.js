@@ -4,7 +4,7 @@ import path from 'path';
 const config = {
   entry: './albums/client/src/app.jsx',
   output: {
-    path: path.join(__dirname, './albums/static/albums'),
+    path: path.join(__dirname, './tmp/build_d16ae296bf5b0b36607f2600e8039ab5/staticfiles'),
     filename: 'bundle.js'
   },
   module: {
