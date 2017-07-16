@@ -41,7 +41,7 @@ class RecordList extends React.Component {
         bool = true;
       }
 
-      axios.get('http://vinyl-manager.herokuapp.com/albums/api/records')
+      axios.get(`${this.props.host}/albums/api/records`)
         .then(response => {
           let records = response.data.filter(record => {
             return record.owned === bool;

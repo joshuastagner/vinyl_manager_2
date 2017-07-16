@@ -32,7 +32,7 @@ class App extends React.Component {
 
       axios({
         method: 'POST',
-        url: 'http://vinyl-manager.herokuapp.com/albums/api/records/',
+        url: `${this.props.host}/albums/api/records/`,
         headers: {'X-CSRFToken': token},
         data: {
           query: query
@@ -63,7 +63,7 @@ class App extends React.Component {
     }
 
     getRecords(filterParam) {
-      axios.get('http://vinyl-manager.herokuapp.com/albums/api/records/')
+      axios.get(`${this.props.host}/albums/api/records/`)
         .then(response => {
           let records = response.data.filter(record => {
             return record.owned === filterParam
@@ -81,11 +81,9 @@ class App extends React.Component {
 
       token = token[0].slice(10)
 
-      console.log('token', token)
-
       axios({
         method: 'POST',
-        url: 'http://vinyl-manager.herokuapp.com/albums/api/save-record',
+        url: `${this.props.host}/albums/api/save-record`,
         data: {
           artist: record.artist,
           title: record.title,
@@ -99,7 +97,7 @@ class App extends React.Component {
       }
 
     render() {
-        let component = <RecordList owned={this.state.owned} />
+        let component = <RecordList owned={this.state.owned} host={this.props.host}/>
         let login = <a href='/logout'>logout</a>
 
         if (this.props.user === 'AnonymousUser') {
@@ -132,4 +130,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render( <App user={window.user}/>, document.getElementById('app'));
+ReactDOM.render( <App user={window.user} host={window.host}/>, document.getElementById('app'));

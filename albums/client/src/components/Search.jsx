@@ -21,7 +21,6 @@ class Search extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.searchRecords(this.state.searchQuery, (response) => {
-    console.log('search props', this.props.resultRecords)
       this.setState({displayResults: true})
     })
   }
