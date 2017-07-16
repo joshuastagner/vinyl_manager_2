@@ -29,6 +29,7 @@ class App extends React.Component {
       })
 
       token = token[0].slice(10)
+      console.log(token)
 
       axios({
         method: 'POST',
@@ -42,7 +43,10 @@ class App extends React.Component {
           this.setState({resultRecords: response.data})
           cb(response)
         })
-        .catch((error) => cb(error))
+        .catch((error) => {
+          console.log(error)
+          cb(error)
+        })
       }
 
     changeList({ target }) {
@@ -81,9 +85,12 @@ class App extends React.Component {
 
       token = token[0].slice(10)
 
+      console.log(token)
+
       axios({
         method: 'POST',
         url: `${this.props.host}/albums/api/save-record`,
+        headers: {'X-CSRFToken': token},
         data: {
           artist: record.artist,
           title: record.title,
@@ -93,8 +100,11 @@ class App extends React.Component {
         }
       })
         .then((response) => cb(response))
-        .catch((error) => cb(error))
-      }
+        .catch((error) => {
+          console.log(error)
+          cb(error)
+        })
+
 
     render() {
         let component = <RecordList owned={this.state.owned} host={this.props.host}/>
