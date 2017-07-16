@@ -81,6 +81,8 @@ class App extends React.Component {
 
       token = token[0].slice(10)
 
+      console.log('token', token)
+
       axios({
         method: 'POST',
         url: 'http://vinyl-manager.herokuapp.com/albums/api/save-record',

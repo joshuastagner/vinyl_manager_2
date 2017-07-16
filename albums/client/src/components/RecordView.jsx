@@ -36,7 +36,7 @@ class RecordView extends React.Component {
 
     axios({
       method: 'DELETE',
-      url: 'http://127.0.0.1:8000/albums/api/delete-record',
+      url: 'http://vinyl-manager.herokuapp.com/albums/api/delete-record',
       headers: {'X-CSRFToken': token},
       data: {
         record_id: this.props.record.record_id

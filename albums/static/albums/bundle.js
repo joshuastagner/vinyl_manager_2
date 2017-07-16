@@ -10562,6 +10562,8 @@ var App = function (_React$Component) {
 
       token = token[0].slice(10);
 
+      console.log('token', token);
+
       (0, _axios2.default)({
         method: 'POST',
         url: 'http://vinyl-manager.herokuapp.com/albums/api/save-record',
