@@ -1,4 +1,3 @@
 *.pyc
 settings_secret.py
 node_modules
-bundle.js
