@@ -29,7 +29,7 @@ if DJANGO_MODE == 'local':
 else:
     DEBUG = False
 
-HOST = os.getenv('HOST')
+API_HOST = os.getenv('API_HOST')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 

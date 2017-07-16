@@ -6,11 +6,11 @@ from albums.serializers import AlbumSerializer, ArtistSerializer, RecordSerializ
 from rest_framework.decorators import api_view
 import requests
 import json
-from vinyl_manager_2.settings import HOST, SECRETS
+from vinyl_manager_2.settings import API_HOST, SECRETS
 
 
 def index(request):
-    context = {'user': str(request.user), 'HOST': HOST}
+    context = {'user': str(request.user), 'API_HOST': API_HOST}
     return render(request, 'albums/index.html', context=context)
 
 @api_view(['GET', 'POST'])
