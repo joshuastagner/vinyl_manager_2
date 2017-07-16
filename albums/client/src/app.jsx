@@ -32,7 +32,7 @@ class App extends React.Component {
 
       axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/albums/api/records/',
+        url: 'http://vinyl-manager.herokuapp.com/albums/api/records/',
         headers: {'X-CSRFToken': token},
         data: {
           query: query
@@ -63,7 +63,7 @@ class App extends React.Component {
     }
 
     getRecords(filterParam) {
-      axios.get('http://127.0.0.1:8000/albums/api/records')
+      axios.get('http://vinyl-manager.herokuapp.com/albums/api/records/')
         .then(response => {
           let records = response.data.filter(record => {
             return record.owned === filterParam
@@ -83,8 +83,7 @@ class App extends React.Component {
 
       axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/albums/api/save-record',
-        headers: {'X-CSRFToken': token},
+        url: 'http://vinyl-manager.herokuapp.com/albums/api/save-record',
         data: {
           artist: record.artist,
           title: record.title,

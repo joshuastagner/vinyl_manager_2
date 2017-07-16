@@ -10507,7 +10507,7 @@ var App = function (_React$Component) {
 
       (0, _axios2.default)({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/albums/api/records/',
+        url: 'http://vinyl-manager.herokuapp.com/albums/api/records/',
         headers: { 'X-CSRFToken': token },
         data: {
           query: query
@@ -10544,7 +10544,7 @@ var App = function (_React$Component) {
     value: function getRecords(filterParam) {
       var _this3 = this;
 
-      _axios2.default.get('http://127.0.0.1:8000/albums/api/records').then(function (response) {
+      _axios2.default.get('http://vinyl-manager.herokuapp.com/albums/api/records/').then(function (response) {
         var records = response.data.filter(function (record) {
           return record.owned === filterParam;
         });
@@ -10564,8 +10564,7 @@ var App = function (_React$Component) {
 
       (0, _axios2.default)({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/albums/api/save-record',
-        headers: { 'X-CSRFToken': token },
+        url: 'http://vinyl-manager.herokuapp.com/albums/api/save-record',
         data: {
           artist: record.artist,
           title: record.title,
@@ -24234,7 +24233,7 @@ var RecordList = function (_React$Component) {
         bool = true;
       }
 
-      _axios2.default.get('http://127.0.0.1:8000/albums/api/records').then(function (response) {
+      _axios2.default.get('http://vinyl-manager.herokuapp.com/albums/api/records').then(function (response) {
         var records = response.data.filter(function (record) {
           return record.owned === bool;
         });
@@ -24576,7 +24575,7 @@ var RecordView = function (_React$Component) {
 
       (0, _axios2.default)({
         method: 'DELETE',
-        url: 'http://127.0.0.1:8000/albums/api/delete-record',
+        url: 'http://vinyl-manager.herokuapp.com/albums/api/delete-record',
         headers: { 'X-CSRFToken': token },
         data: {
           record_id: this.props.record.record_id
