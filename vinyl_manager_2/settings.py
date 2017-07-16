@@ -132,7 +132,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, 'albums', 'static'),
+    os.path.join(BASE_DIR, 'albums', 'static'),
 )
 
 # Django REST framework settings
