@@ -79,6 +79,11 @@ div.search {
     margin: auto;
 }
 
+button {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 
 
 

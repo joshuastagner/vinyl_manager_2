@@ -60,7 +60,7 @@ class RecordView extends React.Component {
       Button1 = <button onClick={this.handleClick} value={true}>own it</button>
       Button2 = <button onClick={this.handleClick} value={false}>want it</button>
     } else {
-      Button1 = <button onClick={this.removeRecord}>remove</button>
+      Button1 = <button onClick={this.removeRecord}>remove </button>
     }
 
     return (
