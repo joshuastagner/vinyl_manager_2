@@ -21,17 +21,17 @@ div.search {
 }
 
 input {
-    width: 500px;
+    width: 300px;
     margin: 0 auto;
 }
 
 label {
+    margin-left: 10%;
     float: left;
 }
 
  div.wrapper {
     margin: auto;
-     width: 60%;
 }
 
 input.check {
@@ -40,8 +40,11 @@ input.check {
     width: 60px;
 }
 
-input.submit {
+input.submit, button {
     width: 50px;
+    background-color: #F8F8FF;
+    border-style: solid;
+    border-width: 0.5px;
 }
 
 p.nav {

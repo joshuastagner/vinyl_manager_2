@@ -33,7 +33,7 @@ class Search extends React.Component {
           <input onChange={this.handleChange} value={this.state.searchQuery} />
           <input className="submit" type="submit" value="search" />
         </form>
-        <RecordList owned="search results" records={this.props.resultRecords} saveRecord={this.props.saveRecord} />
+        <RecordList owned="" records={this.props.resultRecords} saveRecord={this.props.saveRecord} />
       </div>
     )
   }
