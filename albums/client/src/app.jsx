@@ -29,7 +29,6 @@ class App extends React.Component {
       })
 
       token = token[0].slice(10)
-      console.log(token)
 
       axios({
         method: 'POST',
