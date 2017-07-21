@@ -21,12 +21,10 @@ div.search {
 }
 
 input {
-    width: 300px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 label {
-    margin-left: 10%;
     float: left;
 }
 
@@ -37,7 +35,7 @@ label {
 input.check {
     float: left;
     margin-top: 5px;
-    width: 60px;
+
 }
 
 input.submit, button {
@@ -45,6 +43,7 @@ input.submit, button {
     background-color: #F8F8FF;
     border-style: solid;
     border-width: 0.5px;
+    float: left;
 }
 
 p.nav {
