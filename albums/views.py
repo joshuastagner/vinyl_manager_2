@@ -30,7 +30,9 @@ def records(request):
             }
             data.append(record_data)
 
+
         serializer = RecordSerializer(data, many=True)
+        print(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
     if request.method == 'POST':
