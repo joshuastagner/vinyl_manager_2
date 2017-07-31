@@ -88,11 +88,11 @@ export const searchDiscogs = (url, token, query) => dispatch => {
   })
 };
 
-export const saveRecord = (host, token, record, owned) => dispatch => {
-  console.log(`${host}/albums/api/save-record`)
+export const saveRecord = (url, token, record, owned) => dispatch => {
+  console.log(`${url}/albums/api/save-record`)
   axios({
     method: 'POST',
-    url: `${host}/albums/api/save-record`,
+    url: `${url}/albums/api/save-record`,
     headers: {'X-CSRFToken': token},
     data: {
       artist: record.artist,
