@@ -8,7 +8,8 @@ export const RECEIVE_USER_RECORDS = 'RECEIVE_USER_RECORDS';
 export const REQUEST_SEARCH_RECORDS = 'REQUEST_SEARCH_RECORDS';
 export const RECEIVE_SEARCH_RECORDS = 'RECEIVE_SEARCH_RECORDS';
 export const SAVE_RECORD = 'SAVE_RECORD';
-export const REMOVE_RECORD = 'REMOVE_RECORD';
+export const REQUEST_REMOVE_RECORD = 'REQUEST_REMOVE_RECORD';
+export const SUCCESS_REMOVE_RECORD = 'SUCCESS_REMOVE_RECORD';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 export const VISIBILITY_FILTERS = {
   OWNED_RECORDS: 'OWNED_RECORDS',
@@ -73,7 +74,6 @@ export const receiveSearchRecords = records => ({
 });
 export const searchDiscogs = (url, token, query) => dispatch => {
   dispatch(requestSearchRecords(query));
-  console.log('query', query);
   axios({
     method: 'POST',
     url: `${url}/albums/api/records/`,
@@ -86,17 +86,38 @@ export const searchDiscogs = (url, token, query) => dispatch => {
   })
 };
 
-export const saveRecord = ({ artist, title, year, owned, thumb }) => ({
-  type: SAVE_RECORD,
-  artist,
-  title,
-  year,
-  owned,
-  thumb
-});
+export const saveRecord = (host, token, record, owned) => dispatch => {
+  axios({
+    method: 'POST',
+    url: `${host}/albums/api/save-record`,
+    headers: {'X-CSRFToken': token},
+    data: {
+      artist: record.artist,
+      title: record.title,
+      year: record.year,
+      owned: owned,
+      thumb: record.thumb
+    }
+  }).then((response) => {
+    dispatch(fetchUserRecords(`${host}/albums/api/records/`));
+  });
+};
 
-
-export const removeRecord = id => ({
-  type: REMOVE_RECORD,
-  id
+const requestRemoveRecord = id => ({
+  type: REQUEST_REMOVE_RECORD
 });
+const successRemoveRecord = () => ({
+  type: SUCCESS_REMOVE_RECORD
+});
+export const removeRecord = (url, token, id) => dispatch => {
+  dispatch(requestRemoveRecord(id));
+  axios({
+    method: 'DELETE',
+    url: `${url}/albums/api/delete-record`,
+    headers: {'X-CSRFToken': token},
+    data: {'record_id': id}
+  }).then((response) => {
+    dispatch(fetchUserRecords(`${url}/albums/api/records/`));
+  });
+};
+

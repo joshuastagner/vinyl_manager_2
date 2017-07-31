@@ -32,7 +32,6 @@ def records(request):
 
 
         serializer = RecordSerializer(data, many=True)
-        print(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
     if request.method == 'POST':
@@ -97,6 +96,7 @@ def save_record(request):
 
 @api_view(['DELETE'])
 def delete_record(request):
+    print(request.data)
     record = models.Record.objects.get(pk=request.data['record_id'])
     record.delete()
     return HttpResponse('good job')

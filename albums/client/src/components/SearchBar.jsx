@@ -1,7 +1,6 @@
 import React from 'react';
 
 const SearchBar = ({ showSearchBar, submit, token, url }) => {
-  console.log(submit)
   if (!showSearchBar) {
     return null;
   }
@@ -17,8 +16,10 @@ const SearchBar = ({ showSearchBar, submit, token, url }) => {
           input.value = '';
         }
       }>
-        <input type="text" ref={node => {input = node}}/>
-        <input type="submit" value="search" />
+        <p>
+          <input type="text" ref={node => {input = node}}/>
+          <button id="search-button" type="submit">search</button>
+        </p>
       </form>
     </div>
   );

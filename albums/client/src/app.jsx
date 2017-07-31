@@ -13,7 +13,6 @@ import Search from './containers/Search.jsx';
 
 class App extends React.Component {
     componentWillMount () {
-      console.log('props', this.props.host)
       this.props.store.dispatch(fetchUserRecords(`${this.props.host}/albums/api/records/`));
 
       if (this.props.user === 'AnonymousUser') {

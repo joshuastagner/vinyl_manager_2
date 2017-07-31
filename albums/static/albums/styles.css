@@ -20,8 +20,8 @@ div.search {
     width: 80%
 }
 
-input {
-    width: 100%;
+ input {
+    width: 80%;
 }
 
 label {
@@ -35,7 +35,10 @@ label {
 input.check {
     float: left;
     margin-top: 5px;
+}
 
+#search-button {
+    float: right;
 }
 
 input.submit, button {
@@ -45,6 +48,7 @@ input.submit, button {
     border-width: 0.5px;
     float: left;
 }
+
 
 p.nav {
     text-align: center;
