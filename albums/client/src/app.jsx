@@ -10,6 +10,7 @@ import AddRecord from './components/AddRecord.jsx';
 import VisibleRecords from './containers/VisibleRecords.jsx';
 import NavBar from './components/NavBar.jsx';
 import Search from './containers/Search.jsx';
+import Add from './containers/Add.jsx';
 
 class App extends React.Component {
     componentWillMount () {
@@ -37,6 +38,7 @@ class App extends React.Component {
             <NavBar />
             <Search />
             <VisibleRecords />
+            <Add />
           </div>
         );
     }

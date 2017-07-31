@@ -15,7 +15,8 @@ const getVisibleRecords = (state, filter) => {
 }
 
 const mapStateToProps = (state) => ({
-  records: getVisibleRecords(state, state.setFilterView.filter)
+  records: getVisibleRecords(state, state.setFilterView.filter),
+  filter: state.setFilterView.filter
 });
 
 const VisibleRecords = connect(mapStateToProps)(List);

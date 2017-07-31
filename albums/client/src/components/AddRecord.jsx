@@ -27,21 +27,25 @@ class AddRecord extends React.Component {
   }
 
   handleSubmit(event) {
+    const { host, token } = this.props;
     event.preventDefault();
 
     let record = this.state;
     record.thumb = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1200px-12in-Vinyl-LP-Record-Angle.jpg';
-    this.props.saveRecord(this.state, () => {
-      this.setState({
-        artist: '',
-        title: '',
-        year: '',
-        owned: false
-      })
-    });
+    this.props.saveRecord(host, token, this.state, this.state.owned);
+    this.setState({
+      artist: '',
+      title: '',
+      year: '',
+      owned: false
+    })
   }
 
   render() {
+    if (this.props.filter !== 'ADD_RECORD') {
+      return null;
+    };
+
     return (
       <div className="search">
         <form onSubmit={this.handleSubmit}>

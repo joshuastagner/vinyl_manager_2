@@ -8,6 +8,7 @@ const NavBar = () => {
       <FilterLink filter='OWNED_RECORDS'>Your Records</FilterLink>
       <FilterLink filter='WANTED_RECORDS'>Wanted Records</FilterLink>
       <FilterLink filter='SEARCH_RESULT_RECORDS'>Search Records</FilterLink>
+      <FilterLink filter='ADD_RECORD'>Manually Add</FilterLink>
       <Auth />
     </p>
   );
