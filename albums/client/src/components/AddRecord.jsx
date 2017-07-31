@@ -29,7 +29,6 @@ class AddRecord extends React.Component {
   handleSubmit(event) {
     const { host, token } = this.props;
     event.preventDefault();
-
     let record = this.state;
     record.thumb = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1200px-12in-Vinyl-LP-Record-Angle.jpg';
     this.props.saveRecord(host, token, this.state, this.state.owned);
@@ -38,7 +37,7 @@ class AddRecord extends React.Component {
       title: '',
       year: '',
       owned: false
-    })
+    });
   }
 
   render() {
