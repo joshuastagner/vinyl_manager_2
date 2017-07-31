@@ -45,7 +45,7 @@ class App extends React.Component {
 }
 
 const loggerMiddleware = createLogger();
-const store = createStore(reducer, applyMiddleware(thunkMiddleware))
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware))
 
 ReactDOM.render(
   <Provider store={store}>
