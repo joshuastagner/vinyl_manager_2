@@ -92,7 +92,7 @@ export const saveRecord = (url, token, record, owned) => dispatch => {
   console.log(`${url}/albums/api/save-record`)
   axios({
     method: 'POST',
-    url: `${url}/albums/api/save-record`,
+    url: `${url}/albums/api/save-record/`,
     headers: {'X-CSRFToken': token},
     data: {
       artist: record.artist,
@@ -116,7 +116,7 @@ export const removeRecord = (url, token, id) => dispatch => {
   dispatch(requestRemoveRecord(id));
   axios({
     method: 'DELETE',
-    url: `${url}/albums/api/delete-record`,
+    url: `${url}/albums/api/delete-record/`,
     headers: {'X-CSRFToken': token},
     data: {'record_id': id}
   }).then((response) => {
