@@ -74,7 +74,6 @@ export const receiveSearchRecords = records => ({
   records
 });
 export const searchDiscogs = (url, token, query) => dispatch => {
-  console.log(`${url}/albums/api/records/`)
   dispatch(requestSearchRecords(query));
   axios({
     method: 'POST',
@@ -89,7 +88,6 @@ export const searchDiscogs = (url, token, query) => dispatch => {
 };
 
 export const saveRecord = (url, token, record, owned) => dispatch => {
-  console.log(`${url}/albums/api/save-record`)
   axios({
     method: 'POST',
     url: `${url}/albums/api/save-record/`,
